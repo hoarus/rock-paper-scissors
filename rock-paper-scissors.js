@@ -21,29 +21,110 @@ if (userDecision === 'rock' || userDecision === 'paper' || userDecision === 'sci
     return false};
 }
 
-function calculateRoundResult() {
-        //function singleRound
-
-        //Calculate match
-            //if userDecision & computerDecision match, return 'Draw'
-            //else if userDecision = 'Rock'
-                //if computerDecision = 'Paper', return 'Computer Win'
-                //else return 'User Win'
-            //else if userDecision = 'Scissors'
-                //if computerDecision = 'Rock', return 'Computer Win'
-                //else return 'User Win'
-            //else if userDecision = 'Paper'
-                //if computerDecision = 'Scissors', return 'Computer Win'
-                //else return 'User Win'
+function playRound() {
+    //Draw calculation
+    if (userDecision === computerDecision) {
+        console.log("Player chooses " + userDecision + ". Computer chooses " + computerDecision + ". It\'s a draw!");
+        return 'draw';
+    //player chooses Rock
+    } else if (userDecision === 'rock'){
+        if (computerDecision === 'paper') {
+            console.log ("Player chooses " + userDecision + ". Computer chooses " + computerDecision + ". Computer wins!");
+            return 'computer';
+        }
+        else {
+            console.log ("Player chooses " + userDecision + ". Computer chooses " + computerDecision + ". Player wins!");
+            return 'player';
+        }
+    //player chooses Paper
+    } else if (userDecision === 'paper') {
+        if (computerDecision === 'scissors') {
+            console.log ("Player chooses " + userDecision + ". Computer chooses " + computerDecision + ". Computer wins!");
+            return 'computer';
+        }
+        else {
+            console.log ("Player chooses " + userDecision + ". Computer chooses " + computerDecision + ". Player wins!");
+            return 'player';
+        }
+    //plaer chooses Scissors
+    } else if (userDecision === 'scissors') {
+        if (computerDecision === 'rock') {
+            console.log ("Player chooses " + userDecision + ". Computer chooses " + computerDecision + ". Computer wins!");
+            return 'computer';
+        }
+        else {
+            console.log ("Player chooses " + userDecision + ". Computer chooses " + computerDecision + ". Player wins!");
+            return 'player';
+        }
+    }
+    else {
+        alert("Oops! Something went wrong...");
+    }
 }
 
-let computerDecision = computerPlay();
-let userDecision = prompt("Would you like to play Rock, Paper or Scissors?");
-
-userDecision = userDecision.toLowerCase();
-if (userDecisionCheck() === true){
-    //calculateRoundResult();
+function game(){
+    let computerScore = 0;
+    let userScore = 0;
+    for (let round = 0; round < 5; round++) {
+        computerDecision = computerPlay();
+        let roundResult = playRound();
+        if (roundResult === 'computer') {
+            computerScore++;
+        }
+        else if (roundResult === 'player') {
+            userScore++;
+        }
+        console.log('Computer score = ' + computerScore + ". And player score = " + userScore + ".");
+        if (round <4) {
+            alert("Round " + (round+2) + "!");
+            nextRound();
+        }
+            //computerScore = 0
+            //playerScore = 0
+        //// roundResult = playRound()
+            //if roundResult === 'computer', computerScore++
+            //if roundResult === 'player', playerScore++
+        
+    }
+    if (computerScore > userScore) {
+        console.log('Computer Wins! ' + computerScore + ' to ' + userScore + '.');
+    }
+    else if (userScore > computerScore) {
+        console.log('Player Wins! ' + userScore + ' to ' + computerScore + '.');
+    }
+    else {
+        console.log('It\'s a draw!');
+    }
 }
+
+function nextRound(){
+    userDecision = prompt("Again. Rock, Paper or Scissors?")
+        if (userDecisionCheck() === false){
+            nextRound();
+        }
+}
+
+function executeGame(){
+    userDecision = prompt("Welcome! Would you like to play Rock, Paper or Scissors?");
+    userDecision = userDecision.toLowerCase();
+    if (userDecisionCheck() === true){
+        game();
+    } else executeGame();
+}
+
+//declaring global variables
+let computerDecision ='';
+let userDecision = '';
+
+//get prompt from user
+executeGame();
+
+
+
+//userDecisionCheck
+
+
+
 
 
 
