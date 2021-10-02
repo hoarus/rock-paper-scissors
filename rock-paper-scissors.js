@@ -1,64 +1,57 @@
 
+//import HTML elements
+const results = document.querySelector('.results');
+const result1 = document.querySelector(".result1");
+const result2 = document.querySelector(".result2");
+const result3 = document.querySelector(".result3");
+const computerScoreVisual = document.querySelector('#computer-score');
+const playerScoreVisual = document.querySelector('#player-score');
+const rockSelection = document.querySelector('#rock-selection');
+const paperSelection = document.querySelector('#paper-selection');
+const scissorsSelection = document.querySelector('#scissors-selection');
+
+//add event listeners
+rockSelection.addEventListener('click', rockStart)
+paperSelection.addEventListener('click', paperStart)
+scissorsSelection.addEventListener('click', scissorsStart)
+
+//test event listener to remoe
+window.addEventListener('keydown',removeElement);
+
+function removeElement(){
+    results.removeChild(result1);
+}
 
 
 //declare global variables
 let computerDecision ='';
 let playerSelection = '';
+let computerScore = 0;
+let playerScore = 0;
 
-//execute Script
-executeGame();
-
-//Run game is player Decision Check passes. Otherwise, loop.
-function executeGame(){
-    playerSelection = prompt("Welcome! You are facing a tough contender in a game of Rock, Paper, Scissors. \n \nWhat is your weapon of choice?");
-    playerSelection = playerSelection.toLowerCase();
-    if (playerSelectionCheck() === true){
-        game();
-    } else executeGame();
+function printResult (number, string) {
+var number = document.createElement('p');
+number.textContent = string;
+results.appendChild(number);
 }
 
-function playerSelectionCheck(){
-    if (playerSelection === 'rock' || playerSelection === 'paper' || playerSelection === 'scissors') {
-        return true;
-        } else {
-        alert("Are you trying to cheat? Please enter Rock, Paper or Scissors!");
-        return false};
-    }
+function rockStart(){
+    playerSelection = 'rock';
+    playRound();
+}
 
-    function game(){
-        let computerScore = 0;
-        let playerScore = 0;
-        for (let round = 0; round < 5; round++) {
-            computerDecision = computerPlay();
-            let roundResult = playRound();
-            if (roundResult === 'computer') {
-                computerScore++;
-            }
-            else if (roundResult === 'player') {
-                playerScore++;
-            }
-            console.log('Computer score = ' + computerScore + ". And player score = " + playerScore + ".");
-            if (round <4) {
-                alert("Round " + (round+2) + "!");
-                nextRound();
-            }
-                //computerScore = 0
-                //playerScore = 0
-            //// roundResult = playRound()
-                //if roundResult === 'computer', computerScore++
-                //if roundResult === 'player', playerScore++
-            
-        }
-        if (computerScore > playerScore) {
-            console.log('Computer Wins! ' + computerScore + ' to ' + playerScore + '.');
-        }
-        else if (playerScore > computerScore) {
-            console.log('Player Wins! ' + playerScore + ' to ' + computerScore + '.');
-        }
-        else {
-            console.log('It\'s a draw! How tense... You had better reload to play again.');
-        }
-    }
+function paperStart(){
+    playerSelection = 'paper';
+    playRound();
+}
+
+function scissorsStart(){
+    playerSelection = 'scissors';
+    playRound();
+}
+
+
+
     
 //randomly returns either rock, paper or scissors for Computer.
 function computerPlay() {
@@ -71,53 +64,26 @@ function computerPlay() {
 
 
 function playRound() {
+    computerDecision = computerPlay();
         //Draw calculation
+        result1.textContent = "Player chooses " + playerSelection + "."
+        result2.textContent = "Robot-Captor chooses " + computerDecision + "."
         if (playerSelection === computerDecision) {
-            console.log("Player chooses " + playerSelection + ". Computer chooses " + computerDecision + ". It\'s a draw!");
-            return 'draw';
-        //player chooses Rock
-        } else if (playerSelection === 'rock'){
-            if (computerDecision === 'paper') {
-                console.log ("Player chooses " + playerSelection + ". Computer chooses " + computerDecision + ". Computer wins!");
-                return 'computer';
-            }
+            result3.textContent = 'It\'s a draw!'
+        //computer wins
+        } else if ((playerSelection === 'rock' && computerDecision === 'paper')|| 
+                    (playerSelection === "paper" && computerDecision === 'scissors') ||
+                    (playerSelection === "scissors" && computerDecision === "rock") ){
+                        result3.textContent = 'Robot-Captor wins this round!'
+                computerScore ++;
+            } //player wins
             else {
-                console.log ("Player chooses " + playerSelection + ". Computer chooses " + computerDecision + ". Player wins!");
-                return 'player';
+                result3.textContent = 'You win this round!'
+                playerScore ++;
             }
-        //player chooses Paper
-        } else if (playerSelection === 'paper') {
-            if (computerDecision === 'scissors') {
-                console.log ("Player chooses " + playerSelection + ". Computer chooses " + computerDecision + ". Computer wins!");
-                return 'computer';
-            }
-            else {
-                console.log ("Player chooses " + playerSelection + ". Computer chooses " + computerDecision + ". Player wins!");
-                return 'player';
-            }
-        //player chooses Scissors
-        } else if (playerSelection === 'scissors') {
-            if (computerDecision === 'rock') {
-                console.log ("Player chooses " + playerSelection + ". Computer chooses " + computerDecision + ". Computer wins!");
-                return 'computer';
-            }
-            else {
-                console.log ("Player chooses " + playerSelection + ". Computer chooses " + computerDecision + ". Player wins!");
-                return 'player';
-            }
-        }
-        else {
-            alert("Oops! Something went wrong...");
-        }
-    }
-        
-function nextRound(){
-        playerSelection = prompt("Again. Rock, Paper or Scissors?")
-            if (playerSelectionCheck() === false){
-                nextRound();
-            }
-    }
-    
+            computerScoreVisual.textContent = computerScore;
+            playerScoreVisual.textContent = playerScore;
+        };
 
 
 
